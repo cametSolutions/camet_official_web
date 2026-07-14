@@ -1,4 +1,5 @@
 import Hero from '../components/sections/Hero'
+import BannerSlider from '../components/sections/BannerSlider'
 import Services from '../components/sections/Services'
 import About from '../components/sections/About'
 import VideoSection from '../components/sections/VideoSection' // <--- IMPORT THIS
@@ -10,11 +11,11 @@ function Home() {
   return (
     <div>
       <Hero />
-       <About />
-        <LogoStrip />
+      <BannerSlider />
+      <About />
+      <LogoStrip />
       <Services />
-     
-        <VideoSection /> 
+      <VideoSection />
       <Testimonials />
       <ContactSection />
     </div>

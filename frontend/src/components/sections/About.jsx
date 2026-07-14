@@ -16,24 +16,25 @@ import founder5Img from '../../assets/image2.png'
  * Design concept: "connected systems" — CAMET links separate business tools (Tally,
  * ERP, custom software) into one working whole, so the page treats each idea as a
  * colored node in a small constellation, and every card carries its own accent color
- * rather than one repeated brand color. Dark indigo canvas so the palette can breathe.
+ * rather than one repeated brand color. Light, airy off-white canvas keeps the focus
+ * on that color-coded system rather than on the surface itself — modern and minimal.
  */
 
 const fontDisplay = { fontFamily: '"Plus Jakarta Sans", "Poppins", sans-serif' }
 const fontMono = { fontFamily: '"JetBrains Mono", "Menlo", monospace' }
 
-const BG = '#161233'
-const BG_2 = '#1D1850'
-const CARD = 'rgba(255,255,255,0.05)'
-const CARD_BORDER = 'rgba(255,255,255,0.10)'
-const TEXT = '#F6F4FF'
-const MUTED = '#ADA6D6'
+const BG = '#FAF9F6'
+const BG_2 = '#F1F0EA'
+const CARD = '#FFFFFF'
+const CARD_BORDER = 'rgba(23,20,40,0.08)'
+const TEXT = '#181521'
+const MUTED = '#6E6A80'
 
-const BLUE = '#5B8DEF'
-const VIOLET = '#A78BFA'
-const CORAL = '#FB7185'
-const MINT = '#34D399'
-const AMBER = '#FBBF24'
+const BLUE = '#3B63E0'
+const VIOLET = '#7C5CE0'
+const CORAL = '#E24868'
+const MINT = '#0E9F72'
+const AMBER = '#D68A0C'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 46 },
@@ -123,7 +124,7 @@ function About() {
     mouseX.set(e.clientX - rect.left)
     mouseY.set(e.clientY - rect.top)
   }
-  const spotlight = useMotionTemplate`radial-gradient(700px circle at ${mouseX}px ${mouseY}px, rgba(167,139,250,0.10), transparent 70%)`
+  const spotlight = useMotionTemplate`radial-gradient(700px circle at ${mouseX}px ${mouseY}px, rgba(124,92,224,0.06), transparent 70%)`
 
   return (
     <section
@@ -131,41 +132,41 @@ function About() {
       className="relative overflow-hidden py-20 md:py-28"
       style={{ background: `linear-gradient(180deg, ${BG} 0%, ${BG_2} 100%)`, color: TEXT }}
     >
-      {/* colorful gradient mesh */}
+      {/* soft colorful mesh, kept quiet for a light, minimal canvas */}
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, 50, -10, 0], y: [0, -20, 15, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full blur-[110px] z-0"
-        style={{ background: BLUE, opacity: 0.28 }}
+        className="pointer-events-none absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full blur-[120px] z-0"
+        style={{ background: BLUE, opacity: 0.10 }}
       />
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, -40, 20, 0], y: [0, 25, -15, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute top-[10%] right-[-140px] w-[420px] h-[420px] rounded-full blur-[110px] z-0"
-        style={{ background: VIOLET, opacity: 0.28 }}
+        className="pointer-events-none absolute top-[10%] right-[-140px] w-[420px] h-[420px] rounded-full blur-[120px] z-0"
+        style={{ background: VIOLET, opacity: 0.10 }}
       />
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, 30, -20, 0], y: [0, -15, 20, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute bottom-[-140px] left-[28%] w-[380px] h-[380px] rounded-full blur-[110px] z-0"
-        style={{ background: CORAL, opacity: 0.22 }}
+        className="pointer-events-none absolute bottom-[-140px] left-[28%] w-[380px] h-[380px] rounded-full blur-[120px] z-0"
+        style={{ background: CORAL, opacity: 0.08 }}
       />
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, -25, 15, 0], y: [0, 20, -10, 0] }}
         transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute bottom-[6%] right-[8%] w-[300px] h-[300px] rounded-full blur-[100px] z-0"
-        style={{ background: MINT, opacity: 0.2 }}
+        className="pointer-events-none absolute bottom-[6%] right-[8%] w-[300px] h-[300px] rounded-full blur-[110px] z-0"
+        style={{ background: MINT, opacity: 0.08 }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.05]"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)',
+            'linear-gradient(rgba(24,21,33,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(24,21,33,0.7) 1px, transparent 1px)',
           backgroundSize: '64px 64px',
         }}
       />
@@ -193,13 +194,13 @@ function About() {
             <svg
               aria-hidden="true"
               viewBox="0 0 70 60"
-              className="pointer-events-none absolute -top-6 -left-10 w-[280px] h-[240px] hidden lg:block opacity-70 z-0"
+              className="pointer-events-none absolute -top-6 -left-10 w-[280px] h-[240px] hidden lg:block opacity-80 z-0"
             >
               {links.map(([a, b], i) => (
                 <motion.line
                   key={i}
                   x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y}
-                  stroke="rgba(255,255,255,0.18)" strokeWidth="0.3"
+                  stroke="rgba(24,21,33,0.14)" strokeWidth="0.3"
                   initial={{ pathLength: 0, opacity: 0 }}
                   whileInView={{ pathLength: 1, opacity: 1 }}
                   viewport={{ once: true }}
@@ -241,7 +242,7 @@ function About() {
                   variants={fadeUp}
                   whileHover={{ y: -3 }}
                   className="group relative rounded-2xl p-6 transition-colors duration-300"
-                  style={{ backgroundColor: CARD, border: `1px solid ${CARD_BORDER}` }}
+                  style={{ backgroundColor: CARD, border: `1px solid ${CARD_BORDER}`, boxShadow: '0 1px 2px rgba(23,20,40,0.04)' }}
                 >
                   <div
                     className="absolute left-0 top-6 bottom-6 w-[3px] rounded-full transition-all duration-300 group-hover:w-[4px]"
@@ -277,8 +278,9 @@ function About() {
                   transition={{ duration: 0.3 }}
                   className="relative overflow-hidden rounded-2xl p-6 text-center"
                   style={{
-                    background: `linear-gradient(155deg, ${stat.color}26, rgba(255,255,255,0.04))`,
-                    border: `1px solid ${stat.color}40`,
+                    background: `linear-gradient(155deg, ${stat.color}14, #FFFFFF)`,
+                    border: `1px solid ${stat.color}30`,
+                    boxShadow: '0 8px 24px -14px rgba(23,20,40,0.18)',
                   }}
                 >
                   <div
@@ -303,7 +305,7 @@ function About() {
               <motion.div
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.35 }}
-                className="relative rounded-[24px] p-[2px] shadow-[0_30px_70px_-25px_rgba(91,141,239,0.35)]"
+                className="relative rounded-[24px] p-[2px] shadow-[0_25px_60px_-30px_rgba(59,99,224,0.35)]"
                 style={{ background: `linear-gradient(120deg, ${BLUE}, ${VIOLET}, ${CORAL})` }}
               >
                 <div className="overflow-hidden rounded-[22px]" style={{ backgroundColor: BG }}>
@@ -329,7 +331,7 @@ function About() {
             >
               <Button
                 to="/contact"
-                className="inline-flex w-fit items-center rounded-full text-white uppercase tracking-[0.28em] text-[11px] px-8 py-3.5 transition-all duration-300 hover:-translate-y-1 shadow-[0_15px_35px_-10px_rgba(167,139,250,0.6)]"
+                className="inline-flex w-fit items-center rounded-full text-white uppercase tracking-[0.28em] text-[11px] px-8 py-3.5 transition-all duration-300 hover:-translate-y-1 shadow-[0_15px_35px_-12px_rgba(124,92,224,0.5)]"
                 style={{ ...fontMono, background: `linear-gradient(90deg, ${BLUE}, ${VIOLET})` }}
               >
                 Read More
@@ -361,10 +363,13 @@ function About() {
                 variants={fadeUp}
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative rounded-[24px] p-[2px]"
-                style={{ background: `linear-gradient(160deg, ${person.color}, rgba(255,255,255,0.06))` }}
+                className="group relative rounded-[24px] p-[1.5px]"
+                style={{
+                  background: `linear-gradient(160deg, ${person.color}55, ${CARD_BORDER})`,
+                  boxShadow: '0 10px 30px -20px rgba(23,20,40,0.25)',
+                }}
               >
-                <div className="rounded-[22px] overflow-hidden" style={{ backgroundColor: BG_2 }}>
+                <div className="rounded-[22px] overflow-hidden" style={{ backgroundColor: CARD }}>
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <img
                       src={person.image}
@@ -373,18 +378,18 @@ function About() {
                     />
                     <div
                       className="absolute inset-0"
-                      style={{ background: `linear-gradient(0deg, ${BG_2}E6 0%, transparent 55%)` }}
+                      style={{ background: `linear-gradient(0deg, rgba(23,20,40,0.55) 0%, transparent 55%)` }}
                     />
                     <motion.div
                       initial={{ opacity: 0, y: 12 }}
                       whileHover={{ opacity: 1, y: 0 }}
                       className="absolute inset-x-4 bottom-4 rounded-2xl px-3 py-3"
-                      style={{ backgroundColor: 'rgba(22,18,51,0.55)', border: `1px solid ${person.color}66`, backdropFilter: 'blur(6px)' }}
+                      style={{ backgroundColor: 'rgba(255,255,255,0.9)', border: `1px solid ${person.color}55`, backdropFilter: 'blur(6px)' }}
                     >
                       <p style={fontMono} className="text-[10px] uppercase tracking-[0.2em]">
                         <span style={{ color: person.color }}>Leadership</span>
                       </p>
-                      <p style={fontDisplay} className="mt-1 text-[12px] text-white/95 leading-5">
+                      <p style={{ ...fontDisplay, color: TEXT }} className="mt-1 text-[12px] leading-5">
                         Building systems that simplify business growth.
                       </p>
                     </motion.div>
