@@ -14,7 +14,7 @@ function Home() {
         <LogoStrip />
       <Services />
      
-        <VideoSection /> 
+        {/* <VideoSection />  */}
       <Testimonials />
       <ContactSection />
     </div>
