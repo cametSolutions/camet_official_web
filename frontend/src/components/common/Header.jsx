@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logo from '../../assets/White_Logo_HD.png'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -21,11 +21,25 @@ import {
 import { BsFillGearFill } from 'react-icons/bs'
 import { HiOutlineWrenchScrewdriver } from 'react-icons/hi2'
 import { RiStackFill } from 'react-icons/ri'
+import { products } from '@/data/Product'
+
 
 function Header() {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0)
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const headerFont = {
     fontFamily: '"Montserrat", sans-serif',
@@ -43,64 +57,20 @@ function Header() {
     letterSpacing: '0.14em',
   }
 
-  const productLinks = [
-    {
-      path: '/products',
-      label: 'All Products',
-      desc: 'Complete CAMET product catalog',
-      icon: FaBoxOpen,
-      iconBg: 'bg-slate-100',
-      iconColor: 'text-slate-900',
-    },
-    {
-      path: '/products/tallyprime',
-      label: 'TallyPrime Rel 7.0',
-      desc: 'Business management software',
-      icon: FaFileInvoiceDollar,
-      iconBg: 'bg-blue-100',
-      iconColor: 'text-blue-700',
-    },
-    {
-      path: '/products/tallyprime-server',
-      label: 'TallyPrime Server',
-      desc: 'Enterprise multi-user performance',
-      icon: FaDatabase,
-      iconBg: 'bg-indigo-100',
-      iconColor: 'text-indigo-700',
-    },
-    {
-      path: '/products/smart-backup',
-      label: 'Smart Backup++',
-      desc: 'Reliable automated backup support',
-      icon: FaCloud,
-      iconBg: 'bg-sky-100',
-      iconColor: 'text-sky-700',
-    },
-    {
-      path: '/products/multi-file-attachment',
-      label: 'Multi File Attachment',
-      desc: 'Attach documents to transactions',
-      icon: FaPuzzlePiece,
-      iconBg: 'bg-pink-100',
-      iconColor: 'text-pink-700',
-    },
-    {
-      path: '/products/tally-sheet-magic',
-      label: 'Tally Sheet Magic',
-      desc: 'Advanced Excel-based reporting',
-      icon: MdOutlineAssessment,
-      iconBg: 'bg-green-100',
-      iconColor: 'text-green-700',
-    },
-    {
-      path: '/products/audit-trail',
-      label: 'Audit Trail & Voucher History',
-      desc: 'Track changes and transaction history',
-      icon: FaClipboardCheck,
-      iconBg: 'bg-red-100',
-      iconColor: 'text-red-700',
-    },
-  ]
+  const tallyProductLinks = products.filter((item) =>
+    [
+      'tally-software-service',
+      'tallyprime-server',
+      'tallyprime-cloud-access',
+      'tallyprime-developer',
+      'tallycapital',
+      'shoper9',
+    ].includes(item.slug)
+  )
+
+  const ownProductLinks = products.filter((item) =>
+    ['erp-software', 'hotel-erp-software', 'lab-software'].includes(item.slug)
+  )
 
   const solutionLinks = [
     {
@@ -110,6 +80,62 @@ function Header() {
       icon: RiStackFill,
       iconBg: 'bg-slate-100',
       iconColor: 'text-slate-900',
+    },
+    {
+      path: '/solutions/accounting-software',
+      label: 'Accounting Software',
+      desc: 'Manage books, ledgers, vouchers, and financial workflows',
+      icon: FaFileInvoiceDollar,
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-700',
+    },
+    {
+      path: '/solutions/billing-software',
+      label: 'Billing Software',
+      desc: 'Fast invoicing, estimates, billing, and collections',
+      icon: MdOutlineAssessment,
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-700',
+    },
+    {
+      path: '/solutions/bookkeeping-software',
+      label: 'Bookkeeping Software',
+      desc: 'Organize entries, books, reconciliations, and records',
+      icon: FaClipboardCheck,
+      iconBg: 'bg-amber-100',
+      iconColor: 'text-amber-700',
+    },
+    {
+      path: '/solutions/business-management-software',
+      label: 'Business Management Software',
+      desc: 'Control finance, operations, inventory, and reporting together',
+      icon: FaCogs,
+      iconBg: 'bg-slate-100',
+      iconColor: 'text-slate-900',
+    },
+    {
+      path: '/solutions/e-invoicing-software',
+      label: 'e-Invoicing Software',
+      desc: 'Generate compliant e-invoices and simplify invoice workflows',
+      icon: FaCloud,
+      iconBg: 'bg-sky-100',
+      iconColor: 'text-sky-700',
+    },
+    {
+      path: '/solutions/gst-software',
+      label: 'GST Software',
+      desc: 'Handle GST billing, returns, reconciliation, and compliance',
+      icon: FaPuzzlePiece,
+      iconBg: 'bg-rose-100',
+      iconColor: 'text-rose-700',
+    },
+    {
+      path: '/solutions/inventory-management-software',
+      label: 'Inventory Management Software',
+      desc: 'Track stock, warehouses, valuation, and item movement',
+      icon: FaDatabase,
+      iconBg: 'bg-indigo-100',
+      iconColor: 'text-indigo-700',
     },
     {
       path: '/solutions/tally-customization',
@@ -169,20 +195,17 @@ function Header() {
     },
   ]
 
+  const allProductLinks = [...tallyProductLinks, ...ownProductLinks]
+
   const isActive = (path) => location.pathname === path
   const isDropdownActive = (items) => items.some((item) => location.pathname === item.path)
-
-  const getDropdownItems = () => {
-    if (openDropdown === 'products') return productLinks
-    if (openDropdown === 'solutions') return solutionLinks
-    return []
-  }
 
   const getDropdownMeta = () => {
     if (openDropdown === 'products') {
       return {
         title: 'Products',
-        subtitle: 'Explore software, add-ons, and tools for business operations.',
+        subtitle:
+          'Explore Tally products, subscriptions, feature areas, and CAMET software offerings.',
         icon: FaBoxOpen,
         iconBg: 'bg-slate-100',
         iconColor: 'text-slate-900',
@@ -192,7 +215,8 @@ function Header() {
     if (openDropdown === 'solutions') {
       return {
         title: 'Solutions',
-        subtitle: 'Browse CAMET business solutions and workflow services.',
+        subtitle:
+          'Browse accounting, billing, GST, inventory, automation, integration, and CAMET business software solutions.',
         icon: RiStackFill,
         iconBg: 'bg-slate-100',
         iconColor: 'text-slate-900',
@@ -208,20 +232,20 @@ function Header() {
     return (
       <Link
         to={item.path}
-        className="group flex items-start gap-3 rounded-2xl p-3 hover:bg-slate-100 transition-colors"
+        className="group flex items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-slate-100"
       >
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${item.iconBg}`}>
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.iconBg}`}>
           <Icon className={`text-[16px] ${item.iconColor}`} />
         </div>
 
         <div className="min-w-0">
           <div
-            className="text-[11px] text-slate-900 leading-tight group-hover:text-black"
+            className="text-[11px] leading-tight text-slate-900 group-hover:text-black"
             style={headerFont}
           >
             {item.label}
           </div>
-          <div className="text-[12px] text-slate-600 mt-1 leading-snug normal-case tracking-normal">
+          <div className="mt-1 text-[12px] leading-snug tracking-normal text-slate-600 normal-case">
             {item.desc}
           </div>
         </div>
@@ -229,124 +253,163 @@ function Header() {
     )
   }
 
+  const renderMobileGroup = (title, items = []) => (
+    <>
+      <div
+        className="px-4 pt-3 text-[11px] uppercase tracking-[0.18em] text-slate-500"
+        style={headerFont}
+      >
+        {title}
+      </div>
+
+      {items.map((item) => {
+        const Icon = item.icon
+
+        return (
+          <Link
+            key={item.path}
+            to={item.path}
+            onClick={() => setIsMenuOpen(false)}
+            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 hover:bg-slate-50"
+          >
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${item.iconBg}`}>
+              <Icon className={`text-sm ${item.iconColor}`} />
+            </div>
+            <span className="text-[12px] text-slate-900" style={headerFont}>
+              {item.label}
+            </span>
+          </Link>
+        )
+      })}
+    </>
+  )
+
   const dropdownMeta = getDropdownMeta()
   const LeftIcon = dropdownMeta?.icon
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50"
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-slate-950/60 shadow-lg backdrop-blur-md' : 'bg-transparent'
+      }`}
       onMouseLeave={() => setOpenDropdown(null)}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-5">
-        <div className="flex items-center justify-between px-6">
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <div className="w-18 h-15 flex items-center justify-center overflow-hidden">
-              <img
-                src={logo}
-                alt="CAMET IT Solutions logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </Link>
-
-          <nav className="hidden lg:flex items-center gap-8">
-            <Link
-              to="/"
-              className={`text-[12px] transition-colors ${
-                isActive('/') ? 'text-white' : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              Home
-            </Link>
-
-            <Link
-              to="/about"
-              className={`text-[12px] transition-colors ${
-                isActive('/about') ? 'text-white' : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              About
-            </Link>
-
-            <button
-              type="button"
-              onMouseEnter={() => setOpenDropdown('products')}
-              className={`flex items-center gap-1 text-[12px] transition-colors ${
-                isDropdownActive(productLinks) || openDropdown === 'products'
-                  ? 'text-white'
-                  : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              Products
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            <button
-              type="button"
-              onMouseEnter={() => setOpenDropdown('solutions')}
-              className={`flex items-center gap-1 text-[12px] transition-colors ${
-                isDropdownActive(solutionLinks) || openDropdown === 'solutions'
-                  ? 'text-white'
-                  : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              Solutions
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            <Link
-              to="/gallery"
-              className={`text-[12px] transition-colors ${
-                isActive('/gallery') ? 'text-white' : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              Gallery
-            </Link>
-
-            <Link
-              to="/contact"
-              className={`text-[12px] transition-colors ${
-                isActive('/contact') ? 'text-white' : 'text-white/85 hover:text-white'
-              }`}
-              style={headerFont}
-            >
-              Contact
-            </Link>
-          </nav>
-
-          <div className="hidden lg:flex items-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-white text-[12px] backdrop-blur-md hover:bg-white/20 transition-all"
-              style={headerButtonFont}
-            >
-              Book a Service
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="flex h-20 items-center px-4 sm:px-6">
+          <div className="flex shrink-0 items-center">
+            <Link to="/" className="flex shrink-0 items-center">
+              <div className="flex items-center justify-center rounded-full bg-white px-3 py-1.5 shadow-md">
+                <img
+                  src={logo}
+                  alt="CAMET IT Solutions logo"
+                  className="block h-6 w-auto object-contain"
+                />
+              </div>
             </Link>
           </div>
 
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 rounded-md text-white"
-            type="button"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
-              />
-            </svg>
-          </button>
+          <div className="hidden flex-1 items-center justify-center lg:flex">
+            <nav className="flex items-center gap-8">
+              <Link
+                to="/"
+                className={`text-[12px] transition-colors ${
+                  isActive('/') ? 'text-white' : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                Home
+              </Link>
+
+              <Link
+                to="/about"
+                className={`text-[12px] transition-colors ${
+                  isActive('/about') ? 'text-white' : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                About
+              </Link>
+
+              <button
+                type="button"
+                onMouseEnter={() => setOpenDropdown('products')}
+                className={`flex items-center gap-1 text-[12px] transition-colors ${
+                  isDropdownActive(allProductLinks) || openDropdown === 'products'
+                    ? 'text-white'
+                    : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                Products
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                onMouseEnter={() => setOpenDropdown('solutions')}
+                className={`flex items-center gap-1 text-[12px] transition-colors ${
+                  isDropdownActive(solutionLinks) || openDropdown === 'solutions'
+                    ? 'text-white'
+                    : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                Solutions
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <Link
+                to="/gallery"
+                className={`text-[12px] transition-colors ${
+                  isActive('/gallery') ? 'text-white' : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                Gallery
+              </Link>
+
+              <Link
+                to="/contact"
+                className={`text-[12px] transition-colors ${
+                  isActive('/contact') ? 'text-white' : 'text-white/85 hover:text-white'
+                }`}
+                style={headerFont}
+              >
+                Contact
+              </Link>
+            </nav>
+          </div>
+
+          <div className="ml-auto flex items-center gap-3">
+            <div className="hidden items-center lg:flex">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-2 text-[12px] text-white backdrop-blur-md transition-all hover:bg-white/20"
+                style={headerButtonFont}
+              >
+                Book a Service
+              </Link>
+            </div>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="rounded-md p-2 text-white lg:hidden"
+              type="button"
+            >
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -357,14 +420,14 @@ function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="hidden lg:block absolute left-0 right-0 top-[100px]"
+            className="absolute left-0 right-0 top-[80px] hidden lg:block"
           >
-            <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
-              <div className="rounded-[28px] border border-black/10 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.12)] overflow-hidden">
-                <div className="grid grid-cols-12 min-h-[320px]">
-                  <div className="col-span-4 p-8 border-r border-black/10 bg-slate-50">
+            <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-12">
+              <div className="overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.12)]">
+                <div className="grid min-h-[320px] grid-cols-12">
+                  <div className="col-span-4 border-r border-black/10 bg-slate-50 p-8">
                     <div className="flex items-center gap-4">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${dropdownMeta.iconBg}`}>
+                      <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${dropdownMeta.iconBg}`}>
                         {LeftIcon && <LeftIcon className={`text-[22px] ${dropdownMeta.iconColor}`} />}
                       </div>
 
@@ -375,35 +438,64 @@ function Header() {
                         >
                           {dropdownMeta.title}
                         </div>
-                        <h3 className="text-2xl font-light text-slate-900 mt-1">
+                        <h3 className="mt-1 text-2xl font-light text-slate-900">
                           Explore {dropdownMeta.title}
                         </h3>
                       </div>
                     </div>
 
-                    <p className="mt-6 text-[14px] text-slate-600 leading-7 max-w-sm">
+                    <p className="mt-6 max-w-sm text-[14px] leading-7 text-slate-600">
                       {dropdownMeta.subtitle}
                     </p>
 
                     <div className="mt-8 rounded-2xl border border-black/10 bg-white p-5">
-                      <p
-                        className="text-[10px] text-slate-500"
-                        style={headerFont}
-                      >
+                      <p className="text-[10px] text-slate-500" style={headerFont}>
                         Quick Access
                       </p>
-                      <p className="mt-2 text-slate-900 text-[15px] leading-6 font-light">
-                        Find the right platform, add-on, or service flow for your business.
+                      <p className="mt-2 text-[15px] font-light leading-6 text-slate-900">
+                        Find the right platform, subscription, feature flow, or business software for your needs.
                       </p>
                     </div>
                   </div>
 
-                  <div className="col-span-8 p-6 bg-white">
-                    <div className="grid grid-cols-2 gap-2">
-                      {getDropdownItems().map((item) => (
-                        <MegaMenuItem key={item.path} item={item} />
-                      ))}
-                    </div>
+                  <div className="col-span-8 max-h-[70vh] overflow-y-auto bg-white p-6">
+                    {openDropdown === 'products' ? (
+                      <div className="space-y-6">
+                        <div>
+                          <p
+                            className="mb-3 px-3 text-[10px] uppercase tracking-[0.18em] text-slate-500"
+                            style={headerFont}
+                          >
+                            Our Products
+                          </p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {tallyProductLinks.map((item) => (
+                              <MegaMenuItem key={item.path} item={item} />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <p
+                            className="mb-3 px-3 text-[10px] uppercase tracking-[0.18em] text-slate-500"
+                            style={headerFont}
+                          >
+                            Own Products
+                          </p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {ownProductLinks.map((item) => (
+                              <MegaMenuItem key={item.path} item={item} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-2">
+                        {solutionLinks.map((item) => (
+                          <MegaMenuItem key={item.path} item={item} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -419,9 +511,9 @@ function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden mx-5 sm:mx-8 mt-3 rounded-3xl border border-black/10 bg-white backdrop-blur-xl overflow-hidden"
+            className="mx-5 mt-3 overflow-hidden rounded-3xl border border-black/10 bg-white backdrop-blur-xl sm:mx-8 lg:hidden"
           >
-            <div className="p-4 space-y-2">
+            <div className="max-h-[80vh] space-y-2 overflow-y-auto p-4">
               <Link
                 to="/"
                 onClick={() => setIsMenuOpen(false)}
@@ -444,35 +536,19 @@ function Header() {
                 About
               </Link>
 
-              <div className="px-4 pt-3 text-[11px] text-slate-500 uppercase tracking-[0.18em]" style={headerFont}>
-                Products
-              </div>
+              {renderMobileGroup('Our Products', tallyProductLinks)}
+              {renderMobileGroup('Own Products', ownProductLinks)}
 
-              {productLinks.map((item) => {
-                const Icon = item.icon
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 hover:bg-slate-50"
-                  >
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${item.iconBg}`}>
-                      <Icon className={`text-sm ${item.iconColor}`} />
-                    </div>
-                    <span className="text-[12px] text-slate-900" style={headerFont}>
-                      {item.label}
-                    </span>
-                  </Link>
-                )
-              })}
-
-              <div className="px-4 pt-3 text-[11px] text-slate-500 uppercase tracking-[0.18em]" style={headerFont}>
+              <div
+                className="px-4 pt-3 text-[11px] uppercase tracking-[0.18em] text-slate-500"
+                style={headerFont}
+              >
                 Solutions
               </div>
 
               {solutionLinks.map((item) => {
                 const Icon = item.icon
+
                 return (
                   <Link
                     key={item.path}
@@ -480,7 +556,7 @@ function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 hover:bg-slate-50"
                   >
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${item.iconBg}`}>
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${item.iconBg}`}>
                       <Icon className={`text-sm ${item.iconColor}`} />
                     </div>
                     <span className="text-[12px] text-slate-900" style={headerFont}>
@@ -515,7 +591,7 @@ function Header() {
               <Link
                 to="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="block text-center rounded-2xl border border-black/10 bg-slate-900 px-4 py-3 text-white text-[12px]"
+                className="block rounded-2xl border border-black/10 bg-slate-900 px-4 py-3 text-center text-[12px] text-white"
                 style={headerButtonFont}
               >
                 Book a Service

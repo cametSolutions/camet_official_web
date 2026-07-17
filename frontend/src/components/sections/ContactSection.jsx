@@ -149,7 +149,7 @@ function ContactSection() {
             <ContactCard
               icon={FaPhoneAlt}
               label="Phone"
-              value="+91 XXXXX XXXXX"
+              value="+91 82818 70533"
             />
             <ContactCard
               icon={FaEnvelope}

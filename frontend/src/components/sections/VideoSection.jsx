@@ -12,64 +12,91 @@ function VideoSection() {
   const [activeVideo, setActiveVideo] = useState(null)
 
   return (
-    <section className="py-16 bg-slate-900 relative overflow-hidden">
-      {/* Reduced padding (py-16) and background decor */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-brand-600 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+    <section className="relative overflow-hidden bg-[linear-gradient(180deg,#F7F9FC_0%,#FFFFFF_55%,#F4F7FB_100%)] py-16">
+      {/* light neutral base, matching the Services section above it — alternating
+          light/dark sections reads as intentional rhythm instead of two dark blocks stacked */}
+      <div className="absolute inset-x-0 top-0 h-px bg-slate-200" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10">
+      {/* same schematic grid signature as Services, in slate instead of white */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px)',
+          backgroundSize: '56px 56px',
+          maskImage: 'radial-gradient(ellipse 70% 70% at 50% 20%, black 0%, transparent 75%)',
+        }}
+      />
+
+      {/* soft brand-blue glows instead of cyan-on-navy, tuned down for a light backdrop */}
+      <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-[#2F6FED]/10 blur-[90px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#38BDF8]/10 blur-[90px]" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 flex flex-col items-end justify-between gap-6 md:flex-row">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="max-w-xl"
           >
-            <h2 className="text-2xl md:text-4xl font-bold text-white mb-2">
+            <div className="flex items-center gap-2">
+              <span className="h-px w-8 bg-[#2F6FED]" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#2F6FED]">
+                Life at CAMET
+              </p>
+            </div>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 md:text-4xl">
               Life at CAMET IT
             </h2>
-            <p className="text-slate-400 text-sm md:text-base">
+            <p className="mt-2 text-sm text-slate-600 md:text-base">
               A glimpse into our daily work, culture, and success stories.
             </p>
           </motion.div>
-          
+
           <div className="hidden md:block">
-             <a href="#contact" className="text-brand-400 text-sm font-semibold hover:text-white transition-colors">
-               View All Stories →
-             </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2F6FED] transition-colors hover:text-[#0B1F3A]"
+            >
+              View All Stories
+              <span aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
 
         {/* Video Collage Grid - Bento Style */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[500px] md:h-[400px]">
+        <div className="grid h-[500px] grid-cols-1 gap-4 md:h-[400px] md:grid-cols-3">
           {/* Main Large Video (Left) */}
           <motion.div
-            className="md:col-span-2 relative rounded-xl overflow-hidden group shadow-lg border border-white/10"
+            className="group relative overflow-hidden rounded-xl border border-slate-200 shadow-[0_20px_50px_-24px_rgba(11,31,58,0.35)] md:col-span-2"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
             {activeVideo === 0 ? (
               <iframe
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 h-full w-full"
                 src={`https://www.youtube.com/embed/${videos[0].id}?autoplay=1`}
                 title={videos[0].title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
             ) : (
-              <div 
-                className="absolute inset-0 bg-cover bg-center cursor-pointer transition-transform duration-500 group-hover:scale-105"
+              <div
+                className="absolute inset-0 cursor-pointer bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: `url('${videos[0].thumbnail}')` }}
                 onClick={() => setActiveVideo(0)}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex flex-col justify-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A] via-[#0B1F3A]/20 to-transparent" />
+                <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30 group-hover:bg-brand-600 group-hover:border-brand-500 transition-all">
-                      <svg className="w-5 h-5 text-white pl-1" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm transition-all group-hover:border-[#2F6FED] group-hover:bg-[#2F6FED]">
+                      <svg className="h-5 w-5 pl-1 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
                     </div>
                     <div>
-                      <h3 className="text-white font-bold text-lg">{videos[0].title}</h3>
-                      <p className="text-slate-300 text-xs">Featured Story</p>
+                      <h3 className="text-lg font-bold text-white">{videos[0].title}</h3>
+                      <p className="text-xs text-[#7DD3FC]">Featured Story</p>
                     </div>
                   </div>
                 </div>
@@ -82,7 +109,7 @@ function VideoSection() {
             {videos.slice(1).map((video, index) => (
               <motion.div
                 key={index + 1}
-                className="relative rounded-xl overflow-hidden group shadow-lg border border-white/10"
+                className="group relative overflow-hidden rounded-xl border border-slate-200 shadow-[0_20px_50px_-24px_rgba(11,31,58,0.35)]"
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -90,25 +117,26 @@ function VideoSection() {
               >
                 {activeVideo === index + 1 ? (
                   <iframe
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 h-full w-full"
                     src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
                     title={video.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
                 ) : (
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center cursor-pointer transition-transform duration-500 group-hover:scale-105"
+                  <div
+                    className="absolute inset-0 cursor-pointer bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                     style={{ backgroundImage: `url('${video.thumbnail}')` }}
                     onClick={() => setActiveVideo(index + 1)}
                   >
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                       <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform">
-                          <svg className="w-4 h-4 text-white pl-1" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
-                       </div>
+                    <div className="absolute inset-0 bg-[#0B1F3A]/50 transition-colors group-hover:bg-[#0B1F3A]/25" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-sm transition-transform group-hover:scale-110 group-hover:border-[#2F6FED] group-hover:bg-[#2F6FED]">
+                        <svg className="h-4 w-4 pl-1 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
+                      </div>
                     </div>
                     <div className="absolute bottom-3 left-3">
-                       <h4 className="text-white font-semibold text-sm shadow-black drop-shadow-md">{video.title}</h4>
+                      <h4 className="text-sm font-semibold text-white drop-shadow-md">{video.title}</h4>
                     </div>
                   </div>
                 )}

@@ -9,6 +9,8 @@ import SolutionPage from './pages/SolutionPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import ProductsPage from './pages/ProductsPage'
+import GalleryPage from './pages/GalleryPage'
+import ProductDetailsPage from './pages/ProductDetailsPage'
 
 import SupportPage from './pages/SupportPage'
 const router = createBrowserRouter([
@@ -22,7 +24,8 @@ const router = createBrowserRouter([
       { path: '/about', element: <AboutPage /> },
       { path: '/contact', element: <ContactPage /> },
       { path: '/products', element: <ProductsPage /> },
-      { path: '/support', element: <SupportPage /> }
+      {path:'/Gallery',element: <GalleryPage/>},
+      { path: '/products/:slug', element: <ProductDetailsPage /> },
     ]
   }
 ])

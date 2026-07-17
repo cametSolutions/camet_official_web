@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Header from './components/common/Header'
 import Footer from './components/common/Footer'
+import FloatingWhatsApp from './components/common/FloatingWhatsApp'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   )
 }

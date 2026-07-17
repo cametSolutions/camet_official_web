@@ -34,8 +34,8 @@ function LogoItem({ icon: Icon, name, color }) {
 
 function LogoStrip() {
   return (
-    <section className="relative overflow-hidden bg-[#efefec] py-10 md:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+    <section className="relative overflow-hidden bg-[#e7e7e7] py-3 md:py-3">
+      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <div className="text-center">
           <p className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-slate-500 mb-3">
             // Trusted Platforms
@@ -44,7 +44,7 @@ function LogoStrip() {
             Platforms that power connected business operations.
           </h2>
         </div>
-      </div>
+      </div> */}
 
       <div className="relative w-full overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 w-20 md:w-32 bg-gradient-to-r from-[#efefec] to-transparent z-10" />
