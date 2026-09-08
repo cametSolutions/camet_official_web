@@ -218,11 +218,7 @@ function Footer() {
               <a
                 key={num}
                 href={`tel:${num}`}
-                className={`inline-flex w-fit rounded-full border px-3 py-1.5 text-sm font-semibold transition hover:-translate-y-0.5 ${
-                  group.title === 'Support / Services'
-                      ? 'border-cyan-200/50 bg-cyan-200/15 text-cyan-50 hover:bg-cyan-200/25'
-                      : 'border-white/10 text-white/70 hover:border-white/30 hover:text-white'
-                }`}
+                className="inline-flex w-fit rounded-full border border-cyan-300/40 bg-cyan-300/10 px-3 py-1.5 text-xl font-semibold tabular-nums text-cyan-300 transition hover:-translate-y-0.5 hover:bg-cyan-300/20 hover:text-cyan-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
               >
                 {num}
               </a>
