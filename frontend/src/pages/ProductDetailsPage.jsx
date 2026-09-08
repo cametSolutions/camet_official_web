@@ -107,49 +107,15 @@ function FeatureTile({ feature, index }) {
   )
 }
 
-/** Pricing card with a cursor-tracked spotlight glow */
-function PricingSpotlightCard({ pricingSummary, product }) {
-  const cardRef = useRef(null)
-
-  const handleMove = (e) => {
-    const el = cardRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    el.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-    el.style.setProperty('--my', `${e.clientY - rect.top}px`)
-  }
-
+/** Product pricing displayed as secondary information. */
+function ProductPricing({ pricingSummary, product }) {
   return (
-    <aside
-      ref={cardRef}
-      onMouseMove={handleMove}
-      className="group relative overflow-hidden rounded-[26px] bg-[#0b1220] p-[1px] shadow-[0_25px_60px_rgba(0,0,0,0.45)] transition-shadow duration-300 hover:shadow-[0_30px_80px_rgba(99,102,241,0.35)]"
-    >
-      <div className="animate-gradient absolute inset-0 bg-[linear-gradient(135deg,rgba(34,211,238,0.55),rgba(255,255,255,0.06),rgba(99,102,241,0.55),rgba(34,211,238,0.55))]" />
-
-      <div className="relative rounded-[25px] bg-[#0b1220] px-5 py-5 text-white md:px-6 md:py-6">
-        {/* cursor spotlight */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{
-            background:
-              'radial-gradient(280px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.10), transparent 60%)',
-          }}
-        />
-        <div className="bg-orb-b pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-indigo-500/25 blur-3xl" />
-
+    <aside className="rounded-2xl border border-white/15 p-5 md:p-6">
         <div className="relative space-y-3">
-          <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300">
+          <p className="inline-flex items-center gap-1.5 text-sm font-normal text-slate-300">
             <FaLayerGroup className="text-[10px]" />
-            {pricingSummary.eyebrow}
+            Product details
           </p>
-
-          <h2
-            className="bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-3xl font-semibold leading-none tracking-tight text-transparent md:text-5xl"
-            style={headingFont}
-          >
-            {pricingSummary.mainPrice}
-          </h2>
 
           <p className="max-w-md text-sm leading-6 text-white/70">{pricingSummary.subtext}</p>
 
@@ -164,18 +130,24 @@ function PricingSpotlightCard({ pricingSummary, product }) {
             </div>
           </div>
 
+          {!['plans', 'variants'].includes(product.pricing?.type) ? (
+            <p className="border-b border-white/10 py-2 text-sm font-normal leading-6 text-slate-300">
+              {pricingSummary.eyebrow}: {pricingSummary.mainPrice}
+            </p>
+          ) : null}
+
           {product.pricing?.type === 'plans' ? (
             <div className="space-y-2 pt-1">
               {product.pricing.plans.map((plan) => (
                 <div
                   key={plan.name}
-                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 transition-colors duration-200 hover:border-cyan-300/40 hover:bg-white/10"
+                  className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 py-2"
                 >
                   <div className="space-y-0.5">
                     <p className="text-sm font-semibold text-white">{plan.name}</p>
-                    {plan.offer ? <p className="text-xs text-cyan-200">{plan.offer}</p> : null}
+                    {plan.offer ? <p className="text-xs text-slate-300">{plan.offer}</p> : null}
                   </div>
-                  <p className="text-sm font-semibold text-white">{plan.price}</p>
+                  <p className="text-sm font-normal text-slate-300">{plan.price}</p>
                 </div>
               ))}
             </div>
@@ -186,17 +158,17 @@ function PricingSpotlightCard({ pricingSummary, product }) {
               {product.pricing.variants.map((variant) => (
                 <div
                   key={variant.name}
-                  className="rounded-xl border border-white/10 bg-white/5 p-3 transition-colors duration-200 hover:border-cyan-300/40 hover:bg-white/10"
+                  className="border-b border-white/10 py-3"
                 >
                   <p className="text-sm font-semibold text-white">{variant.name}</p>
                   <div className="mt-2 space-y-1.5">
                     {variant.plans.map((plan) => (
                       <div
                         key={`${variant.name}-${plan.duration}`}
-                        className="flex items-center justify-between text-sm text-white/85"
+                        className="flex flex-wrap items-center justify-between gap-2 text-sm text-slate-300"
                       >
                         <span>{plan.duration}</span>
-                        <span className="font-semibold text-white">{plan.price}</span>
+                        <span className="font-normal text-slate-300">{plan.price}</span>
                       </div>
                     ))}
                   </div>
@@ -214,7 +186,6 @@ function PricingSpotlightCard({ pricingSummary, product }) {
             <FaArrowRight className="text-[11px] transition-transform duration-300 group-hover/btn:translate-x-1" />
           </Link>
         </div>
-      </div>
     </aside>
   )
 }
@@ -417,7 +388,7 @@ function ProductDetailsPage() {
               </Reveal>
 
               <Reveal delay={120}>
-                <PricingSpotlightCard pricingSummary={pricingSummary} product={product} />
+                <ProductPricing pricingSummary={pricingSummary} product={product} />
               </Reveal>
             </div>
           </div>
